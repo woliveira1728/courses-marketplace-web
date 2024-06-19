@@ -1,0 +1,44 @@
+.sectionDashdoard {
+    width: 100vw;
+    padding: clamp(0.938rem, 0.8600rem + 0.3900vw, 1.25rem) clamp(0.938rem, -1.6400rem + 12.8900vw, 11.25rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--negative);
+    gap: 1.875rem;
+
+    .secTitle {
+        margin-block: 1.5625rem;
+        color: var(--green-3);
+        font-size: 40px;
+        font-style: italic;
+        font-weight: var(--weight-bold);
+        font-family: var(--font--family-secondary);
+    }
+
+    .secContainer {
+        width: 100%;
+        border-top: 2px solid var(--color-primary);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .secCourse {
+            margin-block: 30px;
+            color: #FFFFFF;
+            font-size: var(--size-title-1);
+            font-weight: var(--weight-semibold);
+            background: #000000;
+            padding: .625rem 1.25rem;
+            border-radius: var(--radius-default);
+        }
+    
+        .notCourse {
+            color: var(--green-3);
+            margin-block: 30px;
+        }
+    }
+
+}

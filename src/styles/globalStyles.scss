@@ -1,0 +1,48 @@
+@import url("./reset.scss");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Nunito:wght@600&display=swap');
+
+:root {
+    --color-primary: #004d00;
+    --color-primary-focus: #228B22;
+    --color-primary-negative: #2E8B57;
+
+    --green-4: #004d00;
+    --green-3: #006400;
+    --green-2: #228B22;
+    --green-1: #66CDAA;
+    --green-0: #98FB98;
+
+    --gray-4: #121214;
+
+    --success: #3FE864;
+    --negative: #b3001e;
+
+    --font--family-primary: "Inter", sans-serif;
+    --font--family-secondary: "Nunito", sans-serif;
+
+    --size-title-1: 1.125rem;
+    --size-title-2: 1rem;
+    --size-headline: .75rem;
+    --size-headline-bold: .75rem;
+    --size-paragraph: 1rem;
+    --size--body: .875rem;
+
+    --weight-semibold: 600;
+    --weight-bold: 700;
+
+    --radius-default: .5rem;
+    --radius-btn: .25rem;
+};
+
+body {
+    width: 100%;
+    
+    display: flex;
+    align-items: center;
+
+    font-family: var(--font--family-primary);
+    color: #FFFFFF;
+    background: var(--green-1);
+    overflow-x: hidden;
+    position: relative;
+};

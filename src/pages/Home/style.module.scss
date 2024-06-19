@@ -1,0 +1,18 @@
+.sectionHome {
+    width: 100vw;
+    padding: clamp(0.938rem, 0.8600rem + 0.3900vw, 1.25rem) clamp(0.938rem, -1.6400rem + 12.8900vw, 11.25rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--negative);
+    gap: 1.875rem;
+
+    .secTitle {
+        margin-top: 18px;
+        color: var(--green-3);
+        font-size: var(--size-title-1);
+        font-weight: var(--weight-bold);
+    }
+
+}

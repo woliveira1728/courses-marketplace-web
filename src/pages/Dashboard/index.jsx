@@ -1,0 +1,52 @@
+import styles from "./style.module.scss";
+import { useContext } from 'react';
+import { UserContext } from '../../providers/UserContext';
+import { CourseList } from '../../components/CourseList/index';
+import { useEffect } from 'react';
+
+
+export const Dashboard = ({  }) => {
+    const { getMyCourses, myCoursesList, myCoursesForSale, isSeller, getMyCoursesForSale, isUser } = useContext(UserContext);
+    const isPurchased = true;
+    const isForSale = true;
+
+    useEffect(() => {
+        getMyCourses();
+        getMyCoursesForSale();
+    }, []);
+
+    return (
+        <section className={styles.sectionDashdoard}>
+
+            <h2 className={styles.secTitle}>DASHBOARD </h2>
+
+            {
+                myCoursesList.length > 0 ?
+                <section className={styles.secContainer}>
+                    <h3 className={styles.secCourse}>Meus cursos comprados</h3>
+                    <CourseList myCoursesList={myCoursesList} isPurchased={isPurchased} />
+                </section> :
+                <section className={styles.secContainer}>
+                    <h3 className={styles.secCourse}>Meus cursos comprados</h3>
+                    <h3 className={styles.notCourse}>Você ainda não tem cursos comprados</h3>
+                </section>
+            }
+
+            {
+                isSeller && myCoursesForSale.length > 0 ?
+                <section className={styles.secContainer}>
+                    <h3 className={styles.secCourse}>Meus cursos a venda</h3>
+                    <CourseList myCoursesForSale={myCoursesForSale} isForSale={isForSale} />
+                </section>
+                : isSeller ?
+                <section className={styles.secContainer}>
+                    <h3 className={styles.secCourse}>Meus cursos a venda</h3>
+                    <h3 className={styles.notCourse}>Você ainda não tem cursos a venda</h3>
+                </section>
+                : null
+            }
+            
+        </section>
+    );
+    
+};

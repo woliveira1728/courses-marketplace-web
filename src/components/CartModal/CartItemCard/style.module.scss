@@ -1,0 +1,43 @@
+
+.cartCard {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    .cardInfo {
+        display: flex;
+        img {
+            width: clamp(3.75rem, 3.4022rem + 1.7388vw, 5.141rem);
+            background: var(--gray-100);
+            border-radius: .3125rem;
+        }
+        .titlePrice {
+            margin-left: .625rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: .625rem;
+            h3 {
+                font-size: clamp(var(--size--body), 0.8125rem + 0.3125vw, var(--size--heading-3));
+                font-weight: var(--weight-bold);
+            }
+            span {
+                color: #FFFFFF;
+                font-size: clamp(var(--size--caption), 0.7188rem + 0.1563vw, var(--size--body));
+
+                font-weight: var(--weight-semibold);
+            }
+            .qtdButton {
+                display: flex;
+                align-items: center;
+            }
+        }
+
+    }
+    .buttonDelItem {
+        color: var(--gray-4);
+        &:hover {
+            color: var(--negative);
+            cursor: pointer;
+        }
+    }
+}

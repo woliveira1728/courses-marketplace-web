@@ -1,0 +1,49 @@
+.inputContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .checkInput {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: .625rem;
+    }
+    
+    label {
+        font-size: clamp(0.611rem, 0.5713rem + 0.1986vw, var(--size-headline));
+        font-weight: 400;
+    };
+
+    input {
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        margin-block: clamp(0.938rem, 0.8071rem + 0.6543vw, 1.396rem);
+        padding: 0 1.015rem;
+        
+        border-radius: var(--radius-default);
+        border: .0761rem solid var(--gray-2);
+
+        color: var(--gray-0);
+        background: var(--gray-2);
+        font-size: clamp(0.814rem, 0.7566rem + 0.2871vw, 1.015rem);
+        font-weight: 400;
+    };
+
+    svg {
+        position: absolute;
+        right: .9375rem;
+        top: 47%;
+    };
+
+    .alertError {
+        font-size: clamp(0.611rem, 0.5713rem + 0.1986vw, var(--size-headline));
+        color: var(--negative);
+        margin-top: -0.8125rem;
+        margin-bottom: .9375rem;
+        font-weight: 600;
+    };
+
+};
