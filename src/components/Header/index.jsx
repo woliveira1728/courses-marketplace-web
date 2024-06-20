@@ -6,12 +6,8 @@ import Button from "../../fragments/Button";
 
 export const Header = ({  }) => {
    const {
-      isUser, setIsUser, cartList, setIsCartOpen, userLogOut, beSalesperson, isSeller, navigate
+      isUser, cartList, setIsCartOpen, userLogOut, beSalesperson, isSeller, navigate, isAdmin
    } = useContext(UserContext);
-
-   const meusCursos = () => {
-      navigate("/dashboard");
-   };
 
    const goToHome = () => {
       navigate("/");
@@ -24,10 +20,18 @@ export const Header = ({  }) => {
 
          <div className={styles.rightHeader}>
 
-            {isUser ? <span className={styles.welcomeHeader}>Bem vindo {isUser.name}</span> :
-            <span className={styles.welcomeHeader}>Bem vindo!</span>}
+            {
+               isAdmin ? <span className={styles.welcomeHeader}>Logado como Adm {isAdmin.name}</span> :
+               isUser ? <span className={styles.welcomeHeader}>Bem vindo {isUser.name}</span> :
+               <span className={styles.welcomeHeader}>Bem vindo!</span>
+            }
 
             {
+               isAdmin ?
+               <>
+                  <div><Button name="Dashboard" status="active" linkRoute="/dashboard" /></div>
+                  <div><Button name="Sair" status="active" onClickDefault={userLogOut} /></div>
+               </> :
                isSeller ?
                <>
                   <div><Button name="Registrar curso" status="active" linkRoute="/course/register" /></div>

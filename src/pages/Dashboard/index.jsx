@@ -3,16 +3,27 @@ import { useContext } from 'react';
 import { UserContext } from '../../providers/UserContext';
 import { CourseList } from '../../components/CourseList/index';
 import { useEffect } from 'react';
+import { UserList } from "../../components/UserList";
 
 
 export const Dashboard = ({  }) => {
-    const { getMyCourses, myCoursesList, myCoursesForSale, isSeller, getMyCoursesForSale, isUser } = useContext(UserContext);
+    const {
+        getMyCourses, myCoursesList, myCoursesForSale, isSeller, getMyCoursesForSale, isUser, isAdmin,
+        allCoursesForAdm, getAllCoursesForAdm, allUsersForAdm, getAllUsersForAdm
+    } = useContext(UserContext);
     const isPurchased = true;
     const isForSale = true;
 
     useEffect(() => {
-        getMyCourses();
-        getMyCoursesForSale();
+        if (isUser) {
+            getMyCourses();
+            getMyCoursesForSale();
+            getAllUsersForAdm();
+        }
+        if(isAdmin){
+            getAllCoursesForAdm();
+            getAllUsersForAdm();
+        }
     }, []);
 
     return (
@@ -21,6 +32,13 @@ export const Dashboard = ({  }) => {
             <h2 className={styles.secTitle}>DASHBOARD </h2>
 
             {
+                isAdmin ?
+                <section className={styles.secContainer}>
+                    <h3 className={styles.secCourse}>Todos os Cursos</h3>
+                    <CourseList allCoursesForAdm={allCoursesForAdm} />
+                    <h3 className={styles.secCourse}>Todos os Usuários</h3>
+                    <UserList allUsersForAdm={allUsersForAdm} />
+                </section> :
                 myCoursesList.length > 0 ?
                 <section className={styles.secContainer}>
                     <h3 className={styles.secCourse}>Meus cursos comprados</h3>

@@ -8,8 +8,8 @@ import { useState } from "react";
 import { useContext } from "react";
 import { UserContext } from "../../providers/UserContext";
 
-const Register = () => {
-    const { userRegister } = useContext(UserContext);
+const RegisterAdm = () => {
+    const { adminRegister } = useContext(UserContext);
     const [showPwd, setShowPwd] = useState(false);
     const [showPwd2, setShowPwd2] = useState(false);
     
@@ -24,9 +24,8 @@ const Register = () => {
                 <div><Button name="Voltar" status="disable-hover" linkRoute="/" /></div>
             </div>
             <section className={styles.registerContent}>
-                <h1>Crie sua conta</h1>
-                <span>Rápido e grátis, vamos nessa</span>
-                <form className={styles.formContainer} onSubmit={handleSubmit(userRegister)} >
+                <h1 className={styles.subTitle}>Crie sua conta Administrativa</h1>
+                <form className={styles.formContainer} onSubmit={handleSubmit(adminRegister)} >
                     <Input type="text" label="Nome" placeholder="Digite aqui seu nome" {...register("name")} error={errors.name} />
                     <Input type="email" label="Email" placeholder="Digite aqui seu email" {...register("email")} error={errors.email} />
                     <Input type={showPwd ? "text" : "password"} label="Senha" placeholder="Digite aqui sua senha" {...register("password")} error={errors.password} showPwd={showPwd} setShowPwd={setShowPwd} />
@@ -38,4 +37,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default RegisterAdm;

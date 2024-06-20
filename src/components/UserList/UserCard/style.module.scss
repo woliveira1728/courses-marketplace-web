@@ -1,0 +1,74 @@
+.courseCard {
+    width: 100%;
+    height: 400 px;
+    background: var(--color-primary-negative);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    border-radius: var(--radius-default);
+    margin-bottom: 5px;
+    gap: 20px;
+    font-family: var(--font--family-secondary);
+
+    @media (max-width: 768px) {
+        width: 250px;
+    }
+
+    img {
+        width: 100%;
+        border-radius: var(--radius-default);
+    }
+
+    .courseInfo {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 10px;
+        
+        .courseTitle {
+            font-size: var(--size-title-2);
+            font-weight: var(--weight-bold);
+            &:hover {
+                cursor: pointer;
+            }
+        }
+
+        .pInfo {
+            font-size: var(--size-headline);
+            font-weight: 300;
+            span{
+                color: #FFFFFF;
+                border-radius: var(--radius-btn);
+                padding: .1px 3px;
+                margin-left: 1.25rem;
+                font-size: var(--size-paragraph);
+                font-weight: var(--weight-bold);
+                background: var(--gray-4);
+                &:hover {
+                    background: var(--color-primary);
+                    cursor: pointer;
+                }
+            }
+        }
+
+        
+    }
+
+    .bntDefault{
+        width: 100%;
+        color: #FFFFFF;
+        font-size: var(--size--heading-2);
+        border-radius: var(--radius-btn);
+        padding: 5px 10px;
+        background: var(--gray-4);
+        border: 2px solid var(--gray-4);
+        &:hover {
+            background: var(--color-primary);
+            border: 2px solid var(--color-primary);
+        }
+    }
+
+}

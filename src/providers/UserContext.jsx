@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 export const UserContext = createContext({});
 
 export const UserProvider = ({children}) => {
+    const [isAdmin, setIsAdmin] = useState(null);
     const [isUser, setIsUser] = useState(null);
     const [isLogged, setIsLogged] = useState(false);
     const localCourseList = localStorage.getItem("@COURSEMARKETPLACE:CourseList");
@@ -16,6 +17,10 @@ export const UserProvider = ({children}) => {
     const [myCoursesList, setMyCoursesList] = useState(localMyCoursesList ? JSON.parse(localMyCoursesList) : []);
     const localMyCoursesForSale = localStorage.getItem("@COURSEMARKETPLACE:myCoursesForSale");
     const [myCoursesForSale, setMyCoursesForSale] = useState(localMyCoursesForSale? JSON.parse(localMyCoursesForSale) : []);
+    const localAllCoursesForAdm = localStorage.getItem("@COURSEMARKETPLACE:allCoursesForAdm");
+    const [allCoursesForAdm, setAllCoursesForAdm] = useState(localAllCoursesForAdm? JSON.parse(localAllCoursesForAdm) : []);
+    const localAllUsersForAdm = localStorage.getItem("@COURSEMARKETPLACE:allUsersForAdm");
+    const [allUsersForAdm, setAllUsersForAdm] = useState(localAllUsersForAdm? JSON.parse(localAllUsersForAdm) : []);
     const [ isLoading, setIsLoading] = useState(false);
     const [ isCartOpen, setIsCartOpen] = useState(false);
     const [isSeller, setIsSeller] = useState(false);
@@ -89,7 +94,24 @@ export const UserProvider = ({children}) => {
 
     useEffect(() => {
         const loadUser = async () => {
+           const tokenAdm = localStorage.getItem("@COURSEMARKETPLACE:tokenAdm");
            const token = localStorage.getItem("@COURSEMARKETPLACE:token");
+
+           if (tokenAdm) {
+                try {
+                    const { data } = await api.get("/admin/profile", {
+                    headers: {
+                        Authorization: `Bearer ${tokenAdm}`,
+                    },
+                    });
+                    setIsAdmin(data);
+                    setIsLogged(true);
+                    navigate("/dashboard");
+                } catch (error) {
+                    console.log(error);
+                    navigate("/");
+                }
+            }
 
            if (token) {
               try {
@@ -120,6 +142,11 @@ export const UserProvider = ({children}) => {
         loadCourseList();
     }, []);
 
+    const loadCourseList = async () => {
+        const { data } = await api.get("/courses")
+        setCourseList(data);
+    };
+
     useEffect(() => {
         localStorage.setItem("@COURSEMARKETPLACE:CourseList", JSON.stringify(courseList))
     }, [courseList]);
@@ -136,6 +163,14 @@ export const UserProvider = ({children}) => {
         localStorage.setItem("@COURSEMARKETPLACE:myCoursesForSale", JSON.stringify(myCoursesForSale))
     }, [myCoursesForSale]);
 
+    useEffect(() => {
+        localStorage.setItem("@COURSEMARKETPLACE:allCoursesForAdm", JSON.stringify(allCoursesForAdm))
+    }, [allCoursesForAdm]);
+
+    useEffect(() => {
+        localStorage.setItem("@COURSEMARKETPLACE:allUsersForAdm", JSON.stringify(allUsersForAdm))
+    }, [allUsersForAdm]);
+
     const userRegister = async (formData) => {
         
         try {
@@ -143,7 +178,23 @@ export const UserProvider = ({children}) => {
             const { data } = await api.post("/users/register", formData);
             setIsUser(data.user);
             setIsSeller(isUser.isSeller);
-            navigate("/");
+            navigate("/login");
+            // successCreateAccount();
+        } catch (error) {
+            console.log(error);
+            // errorCreateAccount();
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const adminRegister = async (formData) => {
+        
+        try {
+            setIsLoading(true);
+            const { data } = await api.post("/admin/register", formData);
+            setIsAdmin(data.user)
+            navigate("/admins/login");
             // successCreateAccount();
         } catch (error) {
             console.log(error);
@@ -173,6 +224,26 @@ export const UserProvider = ({children}) => {
         }
     };
 
+    const adminEditUser = async (userId) => {
+        const tokenAdm = localStorage.getItem("@COURSEMARKETPLACE:tokenAdm");
+
+        try {
+            setIsLoading(true);
+            setIsSeller(!isSeller);
+            const { data } = await api.patch(`/admin/users/${userId}`, { isSeller }, {
+                headers: {
+                    Authorization: `Bearer ${tokenAdm}`,
+                },
+            });
+            setAllUsersForAdm(prevUsers => prevUsers.map(user => user.id === userId ? data : user));
+            navigate("/dashboard");
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const userLogin = async (formData) => {
         
         try {
@@ -192,13 +263,53 @@ export const UserProvider = ({children}) => {
         }
     };
 
+    const adminLogin = async (formData) => {
+        
+        try {
+            setIsLoading(true);
+            const { data } = await api.post("/admin/login", formData);
+            localStorage.setItem("@COURSEMARKETPLACE:tokenAdm", data.accessToken);
+            setIsAdmin(data.user);
+            setIsLogged(true);
+            navigate("/dashboard");
+        } catch (error) {
+            console.log(error);
+            // errorLoginMessage();
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const adminEditStatusCourse = async (courseId, status) => {
+        const tokenAdm = localStorage.getItem("@COURSEMARKETPLACE:tokenAdm");
+
+        const editedCourse = { status }
+
+        try {
+            setIsLoading(true);
+            const { data } = await api.patch(`/admin/courses/${courseId}/status`, editedCourse, {
+                headers: {
+                    Authorization: `Bearer ${tokenAdm}`,
+                },
+            });
+            setAllCoursesForAdm(prevCourses => prevCourses.map(course => course.id === courseId ? data : course));
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     const userLogOut = () => {
         setIsLoading(true);
+        localStorage.removeItem("@COURSEMARKETPLACE:tokenAdm");
         localStorage.removeItem("@COURSEMARKETPLACE:token");
+        setIsAdmin(null);
         setIsUser(null);
         setIsSeller(false);
         setIsLogged(false);
         setMyCoursesForSale([]);
+        setAllCoursesForAdm([]);
         setTimeout(() => {
             navigate("/")
             setIsLoading(false);
@@ -272,6 +383,40 @@ export const UserProvider = ({children}) => {
 
     };
 
+    const getAllCoursesForAdm = async () => {
+        const token = localStorage.getItem("@COURSEMARKETPLACE:tokenAdm");
+        try {
+            setIsLoading(true);
+            const { data } = await api.get("/admin/courses", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setAllCoursesForAdm(data);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const getAllUsersForAdm = async () => {
+        const token = localStorage.getItem("@COURSEMARKETPLACE:tokenAdm");
+        try {
+            setIsLoading(true);
+            const { data } = await api.get("/admin/users", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setAllUsersForAdm(data);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const courseEdit = async (courseId, formData) => {
         formData.price = parseInt(formData.price);
         const token = localStorage.getItem("@COURSEMARKETPLACE:token");
@@ -305,6 +450,48 @@ export const UserProvider = ({children}) => {
                 }
             });
             setMyCoursesForSale(prevCourses => prevCourses.filter(course => course.id !== courseId));
+            // successMessage();
+            navigate("/dashboard");
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+
+    };
+
+    const admCourseDelete = async (courseId) => {
+        const tokenAdm = localStorage.getItem("@COURSEMARKETPLACE:tokenAdm");
+
+        try {
+            setIsLoading(true);
+            const { data } = await api.delete(`/admin/courses/${courseId}`, {
+                headers: {
+                    Authorization: `Bearer ${tokenAdm}`
+                }
+            });
+            setMyCoursesForSale(prevCourses => prevCourses.filter(course => course.id !== courseId));
+            // successMessage();
+            navigate("/dashboard");
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+
+    };
+
+    const admUserDelete = async (userId) => {
+        const tokenAdm = localStorage.getItem("@COURSEMARKETPLACE:tokenAdm");
+
+        try {
+            setIsLoading(true);
+            const { data } = await api.delete(`/admin/users/${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${tokenAdm}`
+                }
+            });
+            setAllUsersForAdm(prevUsers => prevUsers.filter(user => user.id !== userId));
             // successMessage();
             navigate("/dashboard");
         } catch (error) {
@@ -379,7 +566,8 @@ export const UserProvider = ({children}) => {
         <UserContext.Provider value={{
             userRegister, userLogin, userLogOut, isUser, setIsUser, isLoading, courseList, setCourseList,
             setIsLoading, cartList, setCartList, addItemCart, delItemCart, isCartOpen, setIsCartOpen,
-            delCart, buyAllInCart, beSalesperson, isSeller, setIsSeller, isLogged, setIsLogged, courseRegister, navigate, getMyCourses, myCoursesList, setMyCoursesList, buyCourse, courseEdit, myCoursesForSale, setMyCoursesForSale, getMyCoursesForSale, courseDelete
+            delCart, buyAllInCart, beSalesperson, isSeller, setIsSeller, isLogged, setIsLogged, courseRegister, navigate, getMyCourses, myCoursesList, setMyCoursesList, buyCourse, courseEdit, myCoursesForSale, setMyCoursesForSale, getMyCoursesForSale, courseDelete, adminRegister, adminLogin, isAdmin, setIsAdmin, allCoursesForAdm, getAllCoursesForAdm,
+            adminEditStatusCourse, loadCourseList, admCourseDelete, allUsersForAdm, getAllUsersForAdm, adminEditUser, admUserDelete
         }}>
             {children}
         </UserContext.Provider>

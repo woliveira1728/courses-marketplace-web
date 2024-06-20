@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { CourseList } from "../../components/CourseList";
 import styles from "./style.module.scss";
 import { UserContext } from "../../providers/UserContext";
@@ -6,7 +6,13 @@ import { UserContext } from "../../providers/UserContext";
 
 
 export const Home = () => {
-    const { courseList } = useContext(UserContext);
+    const { courseList, loadCourseList } = useContext(UserContext);
+
+    useEffect(() => {
+        loadCourseList();
+    }, []);
+
+    
 
     return (
         <section className={styles.sectionHome}>

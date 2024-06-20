@@ -1,0 +1,35 @@
+.loginContainer {
+    width: clamp(18.5rem, 17.1963rem + 6.5186vw, 23.063rem);
+    margin-top: 4.8331rem;
+    margin-bottom: 3.125rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+    img {
+        padding-bottom: 2.2313rem;
+    };
+
+    .loginContent {
+        width: 100%;
+        padding: clamp(2.106rem, 1.9577rem + 0.7414vw, 2.625rem) clamp(1.103rem, 1.0253rem + 0.3886vw, 1.375rem);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: clamp(1.103rem, 1.0253rem + 0.3886vw, 1.375rem);
+        border-radius: var(--radius-default);
+        background: var(--gray-4);
+        color: var(--gray-0);
+
+        h1 {
+            font-size: clamp(0.902rem, 0.8383rem + 0.3186vw, var(--size-title-1));
+            font-weight: var(--weight-bold);
+        };
+
+        .formContainer {
+            width: 100%;
+        };
+    };
+};

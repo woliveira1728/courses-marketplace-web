@@ -3,14 +3,18 @@ import styles from "./style.module.scss";
 import { useContext } from "react";
 import { UserContext } from '../../providers/UserContext';
 
-export const CourseList = ({ myCoursesList, myCoursesForSale, isPurchased, isForSale }) => {
+export const CourseList = ({ myCoursesList, myCoursesForSale, isPurchased, isForSale, allCoursesForAdm  }) => {
     const { courseList, addItemCart, buyCourse, courseDelete } = useContext(UserContext);
 
     return (
         <ul className={styles.courseList}>
 
             {
-                myCoursesList ?
+                allCoursesForAdm ?
+                allCoursesForAdm.map((course) =>(
+                <CourseCard key={course.id} course={course} courseDelete={courseDelete} />
+                ))
+                : myCoursesList ?
                 myCoursesList.map((course) =>(
                 <CourseCard key={course.id} course={course} addItemCart={addItemCart} isPurchased={isPurchased} buyCourse={buyCourse} />
                 ))

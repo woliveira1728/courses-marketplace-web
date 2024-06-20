@@ -16,15 +16,15 @@ const Input = forwardRef(({showPwd2, setShowPwd2, showPwd, setShowPwd, label, er
                 <>
                     <label htmlFor={label}>{label}</label>
                     <input id={label} ref={ref} type={type} {...rest} placeholder={rest.placeholder} />
-                    {showPwd && type === "password" ? (
+                    {showPwd && label === "Senha" ? (
                         <FaRegEyeSlash onClick={() => setShowPwd(!showPwd)} />
-                    ) : !showPwd && type === "password" ? (
+                    ) : !showPwd && label === "Senha" ? (
                         <FaRegEye onClick={() => setShowPwd(!showPwd)} />
                     ) : null}
-                    {showPwd2 && type === "password" ? (
-                        <FaRegEyeSlash onClick={() => setShowPwd(!showPwd2)} />
-                    ) : !showPwd2 && type === "password" ? (
-                        <FaRegEye onClick={() => setShowPwd(!showPwd2)} />
+                    {showPwd2 && label === "Confirmar Senha" ? (
+                        <FaRegEyeSlash onClick={() => setShowPwd2(!showPwd2)} />
+                    ) : !showPwd2 && label === "Confirmar Senha" ? (
+                        <FaRegEye onClick={() => setShowPwd2(!showPwd2)} />
                     ) : null}
                 </>
             )}
