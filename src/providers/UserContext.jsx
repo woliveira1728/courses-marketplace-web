@@ -77,9 +77,9 @@ export const UserProvider = ({children}) => {
            progress: undefined,
            theme: "light",
         });
-     };
+    };
   
-     const warnMessage = () => {
+    const warnMessage = () => {
         toast.warn("Item já está no carrinho!", {
            position: "top-right",
            autoClose: 3000,
@@ -90,7 +90,7 @@ export const UserProvider = ({children}) => {
            progress: undefined,
            theme: "light",
         });
-     };
+    };
 
     useEffect(() => {
         const loadUser = async () => {
@@ -174,7 +174,7 @@ export const UserProvider = ({children}) => {
     const userRegister = async (formData) => {
         
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             const { data } = await api.post("/users/register", formData);
             setIsUser(data.user);
             setIsSeller(isUser.isSeller);
@@ -191,7 +191,7 @@ export const UserProvider = ({children}) => {
     const adminRegister = async (formData) => {
         
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             const { data } = await api.post("/admin/register", formData);
             setIsAdmin(data.user)
             navigate("/admins/login");
@@ -208,15 +208,14 @@ export const UserProvider = ({children}) => {
         const token = localStorage.getItem("@COURSEMARKETPLACE:token");
 
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             const { data } = await api.patch(`/users/update/${isUser.id}`, { isSeller: true }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
             setIsUser(data);
-            console.log(data);
-            navigate("/");
+            navigate("/dashboard");
         } catch (error) {
             console.log(error);
         } finally {
@@ -228,7 +227,7 @@ export const UserProvider = ({children}) => {
         const tokenAdm = localStorage.getItem("@COURSEMARKETPLACE:tokenAdm");
 
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             setIsSeller(!isSeller);
             const { data } = await api.patch(`/admin/users/${userId}`, { isSeller }, {
                 headers: {
@@ -247,7 +246,7 @@ export const UserProvider = ({children}) => {
     const userLogin = async (formData) => {
         
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             const { data } = await api.post("/users/login", formData);
             localStorage.setItem("@COURSEMARKETPLACE:token", data.accessToken);
             setIsUser(data.user);
@@ -286,7 +285,7 @@ export const UserProvider = ({children}) => {
         const editedCourse = { status }
 
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             const { data } = await api.patch(`/admin/courses/${courseId}/status`, editedCourse, {
                 headers: {
                     Authorization: `Bearer ${tokenAdm}`,
@@ -298,7 +297,7 @@ export const UserProvider = ({children}) => {
         } finally {
             setIsLoading(false);
         }
-    }
+    };
 
     const userLogOut = () => {
         setIsLoading(true);
@@ -366,7 +365,7 @@ export const UserProvider = ({children}) => {
         const token = localStorage.getItem("@COURSEMARKETPLACE:token");
 
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             const { data } = await api.post("/courses/register", newCourse, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -386,7 +385,7 @@ export const UserProvider = ({children}) => {
     const getAllCoursesForAdm = async () => {
         const token = localStorage.getItem("@COURSEMARKETPLACE:tokenAdm");
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             const { data } = await api.get("/admin/courses", {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -403,7 +402,7 @@ export const UserProvider = ({children}) => {
     const getAllUsersForAdm = async () => {
         const token = localStorage.getItem("@COURSEMARKETPLACE:tokenAdm");
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             const { data } = await api.get("/admin/users", {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -422,7 +421,7 @@ export const UserProvider = ({children}) => {
         const token = localStorage.getItem("@COURSEMARKETPLACE:token");
 
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             const { data } = await api.patch(`/courses/${courseId}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -443,7 +442,7 @@ export const UserProvider = ({children}) => {
         const token = localStorage.getItem("@COURSEMARKETPLACE:token");
 
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             const { data } = await api.delete(`/courses/${courseId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -464,7 +463,7 @@ export const UserProvider = ({children}) => {
         const tokenAdm = localStorage.getItem("@COURSEMARKETPLACE:tokenAdm");
 
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             const { data } = await api.delete(`/admin/courses/${courseId}`, {
                 headers: {
                     Authorization: `Bearer ${tokenAdm}`
@@ -485,7 +484,7 @@ export const UserProvider = ({children}) => {
         const tokenAdm = localStorage.getItem("@COURSEMARKETPLACE:tokenAdm");
 
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             const { data } = await api.delete(`/admin/users/${userId}`, {
                 headers: {
                     Authorization: `Bearer ${tokenAdm}`
@@ -535,19 +534,19 @@ export const UserProvider = ({children}) => {
         } else {
         //    warnMessage();
         }
-     };
+    };
   
-     const delItemCart = (id) => {
+    const delItemCart = (id) => {
         const newCartList = cartList.filter(item => item.id !== id);
         setCartList(newCartList);
-     };
+    };
 
-     const delCart = () => {
+    const delCart = () => {
         localStorage.removeItem("@COURSEMARKETPLACE:CartList");
         setCartList([]);
-     };
+    };
 
-     const buyAllInCart = () => {
+    const buyAllInCart = () => {
         cartList.forEach(cart => {
             const transaction = {
                 courseId: cart.id,
@@ -560,7 +559,7 @@ export const UserProvider = ({children}) => {
         });
         setCartList([]);
         setIsCartOpen(false);
-     };
+    };
     
     return (
         <UserContext.Provider value={{

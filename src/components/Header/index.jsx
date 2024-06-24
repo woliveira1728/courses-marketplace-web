@@ -44,8 +44,10 @@ export const Header = ({  }) => {
                   <div><Button name="Dashboard" status="active" linkRoute="/dashboard" /></div>
                   <div><Button name="Sair" status="active" onClickDefault={userLogOut} /></div>
                </> :
-               
-               <div><Button name="Login" status="active" linkRoute="/login" /></div>
+               <>
+                  <div><Button name="Registrar" status="active" linkRoute="/users/register" /></div>
+                  <div><Button name="Login" status="active" linkRoute="/login" /></div>
+               </>
             }
             <button className={styles.cartButton} onClick={() => setIsCartOpen(true)}>
                <MdShoppingCart size={21} />

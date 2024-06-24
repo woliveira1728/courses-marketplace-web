@@ -1,14 +1,13 @@
 .courseList {
-    display: grid;
+    display: flex;
     width: 100%;
-    grid-template-columns: 250px 250px 250px 250px;
     flex-wrap: wrap;
     align-items: flex-start;
-    justify-content: space-between;
-    @media (max-width: 768px) {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 20px;
-    }
+    // justify-content: space-between;
+    // @media (max-width: 768px) {
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+    //     gap: 20px;
+    // }
 }

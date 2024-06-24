@@ -8,7 +8,7 @@ import { UserList } from "../../components/UserList";
 
 export const Dashboard = ({  }) => {
     const {
-        getMyCourses, myCoursesList, myCoursesForSale, isSeller, getMyCoursesForSale, isUser, isAdmin,
+        getMyCourses, myCoursesList, myCoursesForSale, isSeller, getMyCoursesForSale, isUser, isAdmin, setIsSeller,
         allCoursesForAdm, getAllCoursesForAdm, allUsersForAdm, getAllUsersForAdm
     } = useContext(UserContext);
     const isPurchased = true;
@@ -56,7 +56,7 @@ export const Dashboard = ({  }) => {
                     <h3 className={styles.secCourse}>Meus cursos a venda</h3>
                     <CourseList myCoursesForSale={myCoursesForSale} isForSale={isForSale} />
                 </section>
-                : isSeller ?
+                : isSeller && !isAdmin ?
                 <section className={styles.secContainer}>
                     <h3 className={styles.secCourse}>Meus cursos a venda</h3>
                     <h3 className={styles.notCourse}>Você ainda não tem cursos a venda</h3>
