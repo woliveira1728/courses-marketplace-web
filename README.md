@@ -1,6 +1,6 @@
 # Courses Marketplace Web
 
-#### This API was developed for a fullstack project, so after carrying out all the projects below, go to the project's [Back-end repository](https://github.com/woliveira1728/courses-marketplace-api) and follow the instructions
+#### This Front-end was developed for a fullstack project, so after carrying out all the projects below, go to the project's [Back-end repository](https://github.com/woliveira1728/courses-marketplace-api) and follow the instructions
 
 ## Installation
 1. Clone the repository:
